@@ -5,7 +5,7 @@ from diskcache import Cache
 
 app = FastAPI()
 model = SentenceTransformer('all-MiniLM-L6-v2')  # 384-dimensional embeddings
-cache = Cache("cachedir")
+cache = Cache(".cache")
 
 class EmbeddingInput(BaseModel):
     text: str
