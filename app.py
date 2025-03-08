@@ -10,6 +10,10 @@ cache = Cache(".cache")
 class EmbeddingInput(BaseModel):
     text: str
 
+@app.get("/")
+def home():
+    return "Hello from Python!"
+
 @app.post("/embed")
 async def generate_embedding(body:EmbeddingInput):
     embedding = generate_embedding(body.text)
