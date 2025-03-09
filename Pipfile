@@ -16,5 +16,5 @@ diskcache = "*"
 python_version = "3.13"
 
 [scripts]
-dev = "uvicorn app:app --reload"
-start = "uvicorn app:app"
+dev = "uvicorn src.app:app --reload"
+start = "uvicorn src.app:app"

@@ -1,20 +1,17 @@
-from fastapi import FastAPI
 from sentence_transformers import SentenceTransformer
 from pydantic import BaseModel
 from diskcache import Cache
+from fastapi import APIRouter
 
-app = FastAPI()
+router = APIRouter(prefix="/embedding")
+
 model = SentenceTransformer('all-MiniLM-L6-v2')  # 384-dimensional embeddings
 cache = Cache(".cache")
 
 class EmbeddingInput(BaseModel):
     text: str
 
-@app.get("/")
-def home():
-    return "Hello from Python!"
-
-@app.post("/embed")
+@router.post("/")
 async def generate_embedding(body:EmbeddingInput):
     embedding = generate_embedding(body.text)
     return {"embedding": embedding}
