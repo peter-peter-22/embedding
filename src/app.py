@@ -1,3 +1,7 @@
+# Load environment variables from .env file
+from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI
 from src.routes.embedding import router as embedding_router
 from src.routes.home import router as home_router

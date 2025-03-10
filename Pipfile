@@ -9,6 +9,8 @@ uvicorn = "*"
 sentence-transformers = "*"
 pydantic = "*"
 diskcache = "*"
+psycopg2-binary = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
