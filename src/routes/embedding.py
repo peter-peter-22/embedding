@@ -11,7 +11,7 @@ cache = Cache(".cache")
 class EmbeddingInput(BaseModel):
     text: str
 
-@router.post("/")
+@router.post("")
 async def generate_embedding(body:EmbeddingInput):
     embedding = generate_embedding(body.text)
     return {"embedding": embedding}
