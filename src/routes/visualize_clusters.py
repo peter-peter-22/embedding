@@ -17,21 +17,27 @@ def visualize_graph_clusters():
 
             # Get the clusters.
             clusters = get_clusters(cursor)
+            print("Fetched %s clusters." % len(clusters))
 
             # Add the clusters to the graph.
             clusters_to_graph(G, clusters)
+            print("Added the clusters to the graph.")
 
             # Get the grouped connections between the clusters.
             edges = get_edges(cursor)
-            
+            print("Fetched %s edges." % len(edges))
+
             # Add the edges to the graph.
             edges_to_graph(G,edges)
+            print("Added the edges to the graph.")
 
             # Calculate the positions of the nodes
             calculate_node_positions(G,clusters)
+            print("Node positions calculated.")
 
             # Display the graph.
             display(G)
+            print("File saved.")
 
             # End
             return Response(status_code=200)
@@ -192,4 +198,4 @@ def display(G):
     net.set_edge_smooth("continuous")
 
     # Save
-    net.save_graph('clusters.html')
+    net.save_graph('visuals/clusters.html')
