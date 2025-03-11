@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-router = APIRouter(prefix="/embedding")
+router = APIRouter()
 
 # home page to check if the server works
 @router.get("/")

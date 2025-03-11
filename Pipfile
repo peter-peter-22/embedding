@@ -11,6 +11,10 @@ pydantic = "*"
 diskcache = "*"
 psycopg2-binary = "*"
 python-dotenv = "*"
+python-louvain = "*"
+networkx = "*"
+matplotlib = "*"
+pyvis = "*"
 
 [dev-packages]
 
