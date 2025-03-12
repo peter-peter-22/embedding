@@ -4,6 +4,7 @@ import networkx as nx
 from pyvis.network import Network
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
+from src.routes.graph_clustering import like_weight, follow_weight
 
 router = APIRouter()
 
@@ -123,13 +124,29 @@ def get_edges(cursor):
     """
 
     cursor.execute("""
-        SELECT follower."clusterId" edge_from, followed."clusterId" edge_to, count(follows)
-        FROM follows
-        INNER JOIN users follower ON follower.id=follows."followerId"
-        INNER JOIN users followed ON followed.id=follows."followedId"
-        GROUP BY followed."clusterId", follower."clusterId"
-    """)
-    return cursor.fetchall()
+        WITH follow_edges AS(
+        	SELECT follower."clusterId" edge_from, followed."clusterId" edge_to, count(follows) * %s weight
+        	FROM follows
+        	INNER JOIN users follower ON follower.id=follows."followerId"
+        	INNER JOIN users followed ON followed.id=follows."followedId"
+        	GROUP BY edge_from, edge_to
+        ), like_edges AS(
+        	SELECT liker."clusterId" edge_from, liked."clusterId" edge_to, count(likes) * %s weight
+        	FROM likes
+        	INNER JOIN posts liked_post ON liked_post.id=likes."postId"
+        	INNER JOIN users liker ON likes."userId"=liker.id
+        	INNER JOIN users liked ON liked_post."userId"=liker.id
+        	GROUP BY edge_from, edge_to
+        )
+        SELECT edge_from, edge_to, sum(weight) weight
+        FROM (
+        	SELECT * FROM follow_edges 
+        	UNION ALL 
+        	SELECT * FROM like_edges
+        )
+        GROUP BY edge_from, edge_to
+    """ % (follow_weight, like_weight))
+    return [(start,end,float(weight)) for start,end,weight in cursor.fetchall()]
 
 def edges_to_graph(G,edges):
     """
@@ -148,9 +165,9 @@ def edges_to_graph(G,edges):
     edge_cm= plt.cm.get_cmap('RdYlGn')
 
     # Add the edges to the graph
-    for follow in edges:
-        edge_from, edge_to, count = follow
-        G.add_edge(edge_from, edge_to, title=str(count), color=colors.rgb2hex(edge_cm(count/max_weight)))
+    for edge in edges:
+        edge_from, edge_to, weight = edge
+        G.add_edge(edge_from, edge_to, title=str(weight), color=colors.rgb2hex(edge_cm(weight/max_weight)))
 
 def calculate_node_positions(G, clusters):
     """
