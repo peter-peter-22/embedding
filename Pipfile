@@ -15,6 +15,7 @@ python-louvain = "*"
 networkx = "*"
 matplotlib = "*"
 pyvis = "*"
+dotenv = "*"
 
 [dev-packages]
 
