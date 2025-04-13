@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "src"
+version = "0.1.0"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+fastapi = "*"
+uvicorn = "*"
+sentence-transformers = "*"
+pydantic = "*"
+diskcache = "*"
+psycopg2-binary = "*"
+python-dotenv = "*"
+python-louvain = "*"
+networkx = "*"
+matplotlib = "*"
+pyvis = "*"
+dotenv = "*"
+gunicorn = "*"
+
+[tool.poetry.scripts]
+dev = "start_server_dev:main"
+start = "start_server_prod:main"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
