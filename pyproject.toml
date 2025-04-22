@@ -17,10 +17,7 @@ matplotlib = "*"
 pyvis = "*"
 dotenv = "*"
 gunicorn = "*"
-
-[tool.poetry.scripts]
-dev = "start_server_dev:main"
-start = "start_server_prod:main"
+hypercorn = "^0.17.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

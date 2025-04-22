@@ -1,7 +1,6 @@
 from sentence_transformers import SentenceTransformer
 from pydantic import BaseModel
 from fastapi import APIRouter
-import asyncio
 
 router = APIRouter()
 
@@ -11,9 +10,10 @@ class EmbeddingInput(BaseModel):
     text: str
 
 @router.post("/embedding")
-async def generate_embedding_route(body:EmbeddingInput):
-    embedding = await asyncio.to_thread(generate_embedding,body.text)
+def generate_embedding_route(body:EmbeddingInput):
+    embedding = generate_embedding(body.text)
     return {"embedding": embedding}
+    
 
 def generate_embedding(text):
     return model.encode(text, convert_to_tensor=False).tolist()

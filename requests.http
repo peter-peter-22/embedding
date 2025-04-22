@@ -1,0 +1,7 @@
+### test text transformer
+POST http://localhost:8000/embedding HTTP/1.1
+content-type: application/json
+
+{
+    "text": "Hello world"
+}

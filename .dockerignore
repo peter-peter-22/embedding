@@ -1,0 +1,11 @@
+# Python-specific ignores
+__pycache__/
+
+# Git
+.git/
+.gitignore
+
+# Docker files (if they're in the same directory)
+docker-compose*.yml
+Dockerfile*
+.dockerignore
