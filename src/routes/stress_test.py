@@ -4,6 +4,7 @@ import time
 from sentence_transformers import SentenceTransformer
 from concurrent.futures import ThreadPoolExecutor
 import numpy as np
+from multiprocessing import Pool
 
 router = APIRouter()
 
@@ -27,12 +28,12 @@ def stress_test():
     model_cpu.encode(sentences).tolist()
     print("CPU Time:", time.time() - start,flush=True)
 
-    print("Processing CPU multi",flush=True)
+    print("Processing CPU threadpool",flush=True)
     start = time.time()
     with ThreadPoolExecutor(max_workers=4) as executor:
         embeddings = list(executor.map(model_cpu.encode, chunks))
     embeddings = np.vstack(embeddings)
-    print("CPU multi time:", time.time() - start,flush=True)
+    print("CPU threadpool time:", time.time() - start,flush=True)
 
     print("Processing GPU",flush=True)
     start = time.time()
