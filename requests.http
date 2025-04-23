@@ -5,3 +5,9 @@ content-type: application/json
 {
     "text": "Hello world"
 }
+
+### embedding vector generator stress test
+GET http://localhost:8000/stress_test
+
+### embedding vector batch size test
+GET http://localhost:8000/batch_test
