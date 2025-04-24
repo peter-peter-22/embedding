@@ -21,4 +21,4 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 COPY . .
 
 # Expose port
-EXPOSE 8000
+EXPOSE 8002
