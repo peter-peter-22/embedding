@@ -1,24 +1,33 @@
-# Base image
-FROM python:3.13-slim
+# syntax=docker/dockerfile:1.4
 
-# Set working directory
+# Create requirements.txt 
+FROM python:3.13-slim as builder
+
 WORKDIR /app
 
 # Install Poetry
 RUN pip install poetry
 
-# Copy dependency files
-COPY pyproject.toml poetry.lock ./
-RUN touch README.md
+# Install exporter plugin
+RUN poetry self add poetry-plugin-export
 
-# Install dependencies (without dev dependencies)
+# Copy deps
+COPY pyproject.toml poetry.lock ./
+
+# Write requirements file
+RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
+
+# Install
+FROM python:3.13-slim
+
+WORKDIR /app
+
+# Copy requirements from build stage
+COPY --from=builder /app/requirements.txt . 
+
+# Install with pip with cache
 RUN --mount=type=cache,target=/root/.cache/pip \
-    --mount=type=cache,target=/root/.cache/pypoetry \
-    poetry config virtualenvs.create false && \
-    poetry install --no-interaction --no-ansi --no-root --only main
+    pip install -r requirements.txt
 
 # Copy application code
-COPY . .
-
-# Expose port
-EXPOSE 8002
+COPY src src
