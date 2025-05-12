@@ -4,7 +4,6 @@ import time
 from sentence_transformers import SentenceTransformer
 from concurrent.futures import ThreadPoolExecutor
 import numpy as np
-from multiprocessing import Pool
 
 router = APIRouter()
 

@@ -3,7 +3,7 @@ POST http://localhost:8000/embedding HTTP/1.1
 content-type: application/json
 
 {
-    "text": "Hello world"
+    "texts": ["Hello world"]
 }
 
 ### embedding vector generator stress test
